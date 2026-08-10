@@ -8,6 +8,8 @@ import Subscription from '@/components/Subscription'
 import { getProductById, getRelatedProducts } from '@/lib/products'
 import { Product } from '@/types'
 
+import { useSiteSettings } from '@/lib/useSiteSettings'
+
 function ProductDetailsSkeleton() {
   return (
     <div className="bg-white">
@@ -69,6 +71,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
   const [product, setProduct] = useState<Product | null>(null)
   const [relatedProducts, setRelatedProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
+  const settings = useSiteSettings()
 
   useEffect(() => {
     const loadProduct = async () => {
@@ -88,7 +91,7 @@ export default function ProductPage({ params }: { params: { id: string } }) {
     loadProduct()
   }, [params.id])
   
-  if (loading) {
+  if (loading || !settings) {
     return <ProductDetailsSkeleton />
   }
 
