@@ -60,7 +60,7 @@ export default function CategorySection({ category, title, limit }: CategorySect
           </div>
         </ScrollAnimation>
 
-        <div className="relative group" dir="rtl">
+        <div className="relative group/slider" dir="rtl">
           <div className="overflow-hidden">
             <div
               ref={sliderRef}
@@ -78,14 +78,14 @@ export default function CategorySection({ category, title, limit }: CategorySect
             <>
               <button
                 onClick={() => scroll('left')}
-                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-black hover:text-neutral-600 transition-all duration-300 z-10 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 bg-white/80 rounded-full shadow-md w-12 h-12"
+                className="absolute right-2 md:right-4 top-1/2 -translate-y-1/2 text-black hover:text-neutral-600 transition-all duration-300 z-10 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center opacity-0 group-hover/slider:opacity-100 bg-white/80 rounded-full shadow-md w-12 h-12"
                 aria-label="التالي"
               >
                 <ChevronRight size={32} strokeWidth={1.5} />
               </button>
               <button
                 onClick={() => scroll('right')}
-                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 text-black hover:text-neutral-600 transition-all duration-300 z-10 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center opacity-0 group-hover:opacity-100 bg-white/80 rounded-full shadow-md w-12 h-12"
+                className="absolute left-2 md:left-4 top-1/2 -translate-y-1/2 text-black hover:text-neutral-600 transition-all duration-300 z-10 hover:scale-110 active:scale-95 hidden md:flex items-center justify-center opacity-0 group-hover/slider:opacity-100 bg-white/80 rounded-full shadow-md w-12 h-12"
                 aria-label="السابق"
               >
                 <ChevronLeft size={32} strokeWidth={1.5} />
