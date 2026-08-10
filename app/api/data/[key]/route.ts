@@ -3,7 +3,7 @@ import { db } from '@/lib/firebase'
 import { doc, getDoc, setDoc, collection, getDocs, deleteDoc } from 'firebase/firestore'
 import { gzipSync, gunzipSync } from 'zlib'
 
-const ALLOWED_KEYS = ['settings', 'products', 'categories', 'home-sections']
+const ALLOWED_KEYS = ['settings', 'products', 'categories', 'home-sections', 'orders']
 
 export async function GET(
   request: Request,
@@ -20,6 +20,14 @@ export async function GET(
       const snap = await getDocs(collection(db, 'store_products'))
       const products = snap.docs.map(d => d.data())
       return NextResponse.json(products, {
+        headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
+      })
+    }
+    
+    if (key === 'orders') {
+      const snap = await getDocs(collection(db, 'store_orders'))
+      const orders = snap.docs.map(d => d.data())
+      return NextResponse.json(orders, {
         headers: { 'Cache-Control': 'no-store, no-cache, must-revalidate' }
       })
     }
@@ -66,16 +74,23 @@ export async function POST(
       const incomingIds = new Set(data.map((p: any) => p.id))
       const snap = await getDocs(collection(db, 'store_products'))
       
-      // Delete removed products
       for (const docSnap of snap.docs) {
         if (!incomingIds.has(docSnap.id)) {
           await deleteDoc(docSnap.ref)
         }
       }
-      // Upsert products
       for (const p of data) {
         if (p.id) {
           await setDoc(doc(db, 'store_products', p.id), p)
+        }
+      }
+      return NextResponse.json({ success: true })
+    }
+
+    if (key === 'orders') {
+      for (const o of data) {
+        if (o.id) {
+          await setDoc(doc(db, 'store_orders', o.id), o)
         }
       }
       return NextResponse.json({ success: true })
