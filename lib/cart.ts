@@ -81,6 +81,6 @@ export async function updateOrderStatus(id: string, status: Order['status']): Pr
   
   saveOrdersToStorage(orders)
   
-  const verification = await getAllOrders()
-  return verification.find((o) => o.id === id) || null
+  // Return the updated order directly instead of fetching from server to avoid race conditions
+  return orders[orderIndex]
 }
