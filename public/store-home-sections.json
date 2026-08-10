@@ -1,0 +1,51 @@
+[
+  {
+    "id": "hero",
+    "type": "hero",
+    "enabled": true,
+    "order": 0
+  },
+  {
+    "id": "shopbar",
+    "type": "shopbar",
+    "enabled": true,
+    "order": 1
+  },
+  {
+    "id": "featured",
+    "type": "featured",
+    "enabled": true,
+    "order": 2,
+    "title": "المنتجات المميزة"
+  },
+  {
+    "type": "category",
+    "enabled": true,
+    "category": "outfits",
+    "title": "طقم كامل",
+    "id": "sec_1786376497261",
+    "order": 3
+  },
+  {
+    "type": "category",
+    "enabled": true,
+    "category": "tshirts",
+    "title": "تيشيرت",
+    "id": "sec_1786374640880",
+    "order": 4
+  },
+  {
+    "type": "category",
+    "enabled": true,
+    "category": "pants",
+    "title": "بناطيل",
+    "id": "sec_1786376420909",
+    "order": 5
+  },
+  {
+    "id": "subscription",
+    "type": "subscription",
+    "enabled": true,
+    "order": 6
+  }
+]
