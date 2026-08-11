@@ -28,14 +28,43 @@ function DynamicBanner({ section }: { section: HomeSection }) {
   )
 }
 
+function HomeSkeleton() {
+  return (
+    <div className="w-full min-h-screen bg-white">
+      {/* Hero Skeleton */}
+      <div className="w-full h-[70vh] md:h-[85vh] bg-slate-100 animate-pulse relative">
+        <div className="absolute inset-0 flex flex-col items-center justify-center p-4">
+          <div className="w-64 md:w-96 h-12 bg-slate-200/50 rounded-lg mb-4 animate-pulse" />
+          <div className="w-48 h-6 bg-slate-200/50 rounded-lg mb-8 animate-pulse" />
+          <div className="w-40 h-12 bg-slate-200/50 rounded-full animate-pulse" />
+        </div>
+      </div>
+      
+      {/* Slider Skeleton */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="w-64 h-10 bg-slate-100 rounded-lg mx-auto mb-8 animate-pulse" />
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-[70%] sm:w-[45%] md:w-[30%] lg:w-[23%]">
+                <div className="aspect-[3/4] bg-slate-100 rounded-xl animate-pulse mb-3" />
+                <div className="w-3/4 h-4 bg-slate-100 rounded animate-pulse mb-2" />
+                <div className="w-1/2 h-4 bg-slate-100 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    </div>
+  )
+}
+
 export default function Home() {
   const sections = useHomeSections()
 
-  // Fallback to empty div before hydration to prevent flashing default images
+  // Show skeleton instead of empty div while loading
   if (!sections || sections.length === 0) {
-    return (
-      <div className="w-full min-h-screen bg-white"></div>
-    )
+    return <HomeSkeleton />
   }
 
   const renderSection = (section: HomeSection) => {

@@ -16,6 +16,7 @@ interface CategorySectionProps {
 
 export default function CategorySection({ category, title, limit }: CategorySectionProps) {
   const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
@@ -25,6 +26,7 @@ export default function CategorySection({ category, title, limit }: CategorySect
       } else {
         setProducts(data)
       }
+      setLoading(false)
     })
     
   }, [category, limit])
@@ -38,6 +40,28 @@ export default function CategorySection({ category, title, limit }: CategorySect
         sliderRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
       }
     }
+  }
+
+  if (loading) {
+    return (
+      <section className="py-12 bg-neutral-50 overflow-hidden">
+        <div className="container mx-auto px-4">
+          <div className="flex items-center justify-between mb-8">
+            <div className="w-64 h-10 bg-slate-200 rounded-lg animate-pulse" />
+            <div className="w-24 h-6 bg-slate-200 rounded animate-pulse hidden md:block" />
+          </div>
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-[70%] sm:w-[45%] md:w-[30%] lg:w-[23%]">
+                <div className="aspect-[3/4] bg-slate-200 rounded-xl animate-pulse mb-3" />
+                <div className="w-3/4 h-4 bg-slate-200 rounded animate-pulse mb-2" />
+                <div className="w-1/2 h-4 bg-slate-200 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
   }
 
   if (products.length === 0) return null

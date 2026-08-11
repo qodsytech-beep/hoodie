@@ -9,10 +9,14 @@ import ScrollAnimation from './ScrollAnimation'
 
 export default function FeaturedSlider() {
   const [products, setProducts] = useState<Product[]>([])
+  const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
 
   useEffect(() => {
-    getFeaturedProducts().then(setProducts)
+    getFeaturedProducts().then((data) => {
+      setProducts(data)
+      setLoading(false)
+    })
   }, [])
 
   const scroll = (direction: 'left' | 'right') => {
@@ -24,6 +28,25 @@ export default function FeaturedSlider() {
         sliderRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
       }
     }
+  }
+
+  if (loading) {
+    return (
+      <section className="py-8 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="w-64 h-10 bg-slate-100 rounded-lg mx-auto mb-8 animate-pulse" />
+          <div className="flex gap-4 overflow-hidden">
+            {[...Array(4)].map((_, i) => (
+              <div key={i} className="flex-shrink-0 w-[70%] sm:w-[45%] md:w-[30%] lg:w-[23%]">
+                <div className="aspect-[3/4] bg-slate-100 rounded-xl animate-pulse mb-3" />
+                <div className="w-3/4 h-4 bg-slate-100 rounded animate-pulse mb-2" />
+                <div className="w-1/2 h-4 bg-slate-100 rounded animate-pulse" />
+              </div>
+            ))}
+          </div>
+        </div>
+      </section>
+    )
   }
 
   if (products.length === 0) return null
