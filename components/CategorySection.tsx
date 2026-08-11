@@ -8,6 +8,8 @@ import ProductCard from './ProductCard'
 import { Product } from '@/types'
 import ScrollAnimation from './ScrollAnimation'
 
+import { useCategories } from '@/lib/useCategories'
+
 interface CategorySectionProps {
   category: string
   title: string
@@ -18,6 +20,7 @@ export default function CategorySection({ category, title, limit }: CategorySect
   const [products, setProducts] = useState<Product[]>([])
   const [loading, setLoading] = useState(true)
   const sliderRef = useRef<HTMLDivElement>(null)
+  const categories = useCategories()
 
   useEffect(() => {
     getProductsByCategory(category).then((data) => {
@@ -39,6 +42,17 @@ export default function CategorySection({ category, title, limit }: CategorySect
       } else {
         sliderRef.current.scrollBy({ left: -scrollAmount, behavior: 'smooth' })
       }
+    }
+  }
+
+  // Determine the correct href for the "View All" link
+  let viewAllHref = `/products?category=${category}`
+  const catObj = categories.find(c => c.slug === category)
+  if (catObj && catObj.parentId) {
+    const parentObj = categories.find(c => c.id === catObj.parentId)
+    if (parentObj) {
+      // The user requested to see the parent WITH all its children (not just this specific child)
+      viewAllHref = `/products?category=${parentObj.slug}`
     }
   }
 
@@ -75,7 +89,7 @@ export default function CategorySection({ category, title, limit }: CategorySect
               {title}
             </h2>
             <Link
-              href={`/products?category=${category}`}
+              href={viewAllHref}
               className="text-black hover:text-neutral-700 font-semibold transition flex items-center gap-2"
             >
               عرض الكل
