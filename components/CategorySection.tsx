@@ -51,8 +51,8 @@ export default function CategorySection({ category, title, limit }: CategorySect
   if (catObj && catObj.parentId) {
     const parentObj = categories.find(c => c.id === catObj.parentId)
     if (parentObj) {
-      // The user requested to see the parent WITH all its children (not just this specific child)
-      viewAllHref = `/products?category=${parentObj.slug}`
+      // User wants both parent and child selected in the products filter
+      viewAllHref = `/products?category=${parentObj.slug}&subCategory=${catObj.slug}`
     }
   }
 
